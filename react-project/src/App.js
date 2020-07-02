@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Userinput from './Assigment1/UserInput'
+import Useroutput from './Assigment1/UserOutput'
 
 class App extends Component {
   state = {
@@ -9,7 +11,18 @@ class App extends Component {
       { name: "Gokul", age: 27 },
       { name: "Ravi", age: 29 }
     ],
-    other: "some oth value"
+    other: "some oth value",
+    Users: [
+      "Max", "Gokul", "Ravi"
+    ],
+
+  }
+  usernameChangedHandler = (event) => {
+    this.setState({
+      Users: [
+        event.target.value, "Gokul", "Ravi"
+      ],
+    });
   }
 
   swicthNameHandler = (newName) => {
@@ -53,6 +66,14 @@ class App extends Component {
         <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
         <Person changed={this.nameChangedHandler} click={this.swicthNameHandler.bind(this, 'Max!!!')} name={this.state.persons[1].name} age={this.state.persons[1].age} >Hobbies: Netflix</Person>
         <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+
+        <Userinput name="Gokul"
+          changed={this.usernameChangedHandler}
+          currentname={this.state.Users[0]}
+        /><br></br>
+        <Useroutput username={this.state.Users[0]} /><br></br>
+        <Useroutput username={this.state.Users[1]} /><br></br>
+        <Useroutput username={this.state.Users[2]} />
       </div >
     );
   }
