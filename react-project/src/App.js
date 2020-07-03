@@ -7,14 +7,15 @@ import Useroutput from './Assigment1/UserOutput'
 class App extends Component {
   state = {
     persons: [
-      { name: "Max", age: 26 },
-      { name: "Gokul", age: 27 },
-      { name: "Ravi", age: 29 }
+      { id: 1, name: "Max", age: 26 },
+      { id: 2, name: "Gokul", age: 27 },
+      { id: 3, name: "Ravi", age: 29 }
     ],
     other: "some oth value",
     Users: [
       "Max", "Gokul", "Ravi"
     ],
+    show_person: false,
 
   }
   usernameChangedHandler = (event) => {
@@ -25,29 +26,36 @@ class App extends Component {
     });
   }
 
-  swicthNameHandler = (newName) => {
-    // console.log("Button Clicked");
-    // this.state.persons[0].name = 'Maximilian'; not works
-    this.setState({
-      persons: [
-        { name: "Max", age: 26 },
-        { name: "Gokul", age: 27 },
-        { name: "Ravi Kumar", age: 29 }
-      ]
-    });
+  deletePersonHandler = (person_index) => {
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(person_index, 1)
+    this.setState({ persons: persons });
+
   }
 
-  nameChangedHandler = (event) => {
-    this.setState(
-      {
-        persons: [
-          { name: "Max", age: 26 },
-          { name: event.target.value, age: 27 },
-          { name: "Ravi Kumar", age: 29 }
-        ]
-      }
-    )
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id
+    });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons]
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons })
+
   }
+  togglePersonsHandler = (event) => {
+    const doesShow = this.state.show_person;
+    this.setState({ show_person: !doesShow });
+
+  }
+
   render() {
     const stylebtn = {
       backgroundColor: 'White',
@@ -57,16 +65,29 @@ class App extends Component {
       cursor: 'pointer',
 
     };
+    let personsf = null;
+    if (this.state.show_person) {
+      personsf = (
+        <div>
+          {this.state.persons.map((per, index) => {
+            return <Person name={per.name}
+              click={this.deletePersonHandler.bind(this, index)}
+              age={per.age}
+              key={per.id}
+              changed={(event) => this.nameChangedHandler(event, per.id)} />
+          })}
+        </div>
+      );
+    }
+
     return (
       <div className="App" >
         <h1>Hi , Welcome to React app</h1>
         {/* bind argument with function 1st way || efficient way <button onClick={this.swicthNameHandler.bind(this, 'Maximilian')}>Switch Name</button> */}
         <button style={stylebtn}
-          onClick={() => this.swicthNameHandler('Maximilian!')}>Switch Name</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person changed={this.nameChangedHandler} click={this.swicthNameHandler.bind(this, 'Max!!!')} name={this.state.persons[1].name} age={this.state.persons[1].age} >Hobbies: Netflix</Person>
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+          onClick={this.togglePersonsHandler}>Switch Name</button>
 
+        {personsf}
         <Userinput name="Gokul"
           changed={this.usernameChangedHandler}
           currentname={this.state.Users[0]}
