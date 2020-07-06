@@ -19,3 +19,8 @@ set BROWSER=none&&npm start
           <li>Add two-way-binding to your input (in UserInput) to also display the starting username</li>
           <li>Add styling of your choice to your components/ elements in the components - both with inline styles and stylesheets</li>
 </ol>
+
+
+npm install --save radium
+
+npm install --save styled-components

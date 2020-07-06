@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import Userinput from './Assigment1/UserInput'
-import Useroutput from './Assigment1/UserOutput'
+import Userinput from './Assigment1/UserInput';
+import Useroutput from './Assigment1/UserOutput';
+import styled from 'styled-components';
+// import Radium, { StyleRoot } from 'radium';
+
+const StyledButton = styled.button`
+      background-color: ${props => props.statusp ? 'red' : 'green'};
+color: white;
+font: inherit;
+border: 1px solid blue;
+padding: 8px;
+cursor: pointer;
+      &: hover {
+  background - color: ${props => props.statusp ? 'salmon' : 'lightgreen'};
+  color: black;
+  }
+`;
 
 class App extends Component {
   state = {
@@ -57,14 +72,18 @@ class App extends Component {
   }
 
   render() {
-    const stylebtn = {
-      backgroundColor: 'White',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-
-    };
+    // const stylebtn = {
+    //   backgroundColor: 'green',
+    //   color: 'white',
+    //   font: 'inherit',
+    //   border: '1px solid blue',
+    //   padding: '8px',
+    //   cursor: 'pointer',
+    //   ':hover': {
+    //     backgroundColor: 'lightgreen',
+    //     color: 'black',
+    //   }
+    // };
     let personsf = null;
     if (this.state.show_person) {
       personsf = (
@@ -78,14 +97,29 @@ class App extends Component {
           })}
         </div>
       );
+      // stylebtn.backgroundColor = 'red';
+      // stylebtn[':hover'] = {
+      //   backgroundColor: 'salmon',
+      //   color: 'black',
+      // };
+
+    }
+    const p_classes = []; // status css classes
+    if (this.state.persons.length <= 2) {
+      p_classes.push('red'); // red 
+    }
+    if (this.state.persons.length <= 1) {
+      p_classes.push('bold'); // red and bold
     }
 
     return (
+      //<StyleRoot></StyleRoot>
       <div className="App" >
         <h1>Hi , Welcome to React app</h1>
         {/* bind argument with function 1st way || efficient way <button onClick={this.swicthNameHandler.bind(this, 'Maximilian')}>Switch Name</button> */}
-        <button style={stylebtn}
-          onClick={this.togglePersonsHandler}>Switch Name</button>
+        <p className={p_classes.join(' ')}>Persons list status</p>
+        <StyledButton statusp={this.state.show_person}
+          onClick={this.togglePersonsHandler}>Switch Name</StyledButton>
 
         {personsf}
         <Userinput name="Gokul"
@@ -96,9 +130,11 @@ class App extends Component {
         <Useroutput username={this.state.Users[1]} /><br></br>
         <Useroutput username={this.state.Users[2]} />
       </div >
+
     );
   }
 }
 
 
+// export default Radium(App);
 export default App;
