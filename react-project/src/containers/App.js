@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classes from './App.module.css';
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
   state = {
@@ -57,38 +59,28 @@ class App extends Component {
   render() {
 
     let personsf = null;
-    let btnClass = [classes.Button];
+    // let btnClass = [classes.Button];
     if (this.state.show_person) {
       personsf = (
         <div>
-          {this.state.persons.map((per, index) => {
-            return <Person name={per.name}
-              click={this.deletePersonHandler.bind(this, index)}
-              age={per.age}
-              key={per.id}
-              changed={(event) => this.nameChangedHandler(event, per.id)} />
-          })}
+          <Persons persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler}
+          />
         </div>
       );
-      btnClass.push(classes.Red);
+      // btnClass.push(classes.Red);
 
     }
-    const p_classes = []; // status css classes
-    if (this.state.persons.length <= 2) {
-      p_classes.push('red'); // red 
-    }
-    if (this.state.persons.length <= 1) {
-      p_classes.push('bold'); // red and bold
-    }
+
 
     return (
       //<StyleRoot></StyleRoot>
       <div className={classes.App} >
-        <h1>Hi , Welcome to React app</h1>
-        {/* bind argument with function 1st way || efficient way <button onClick={this.swicthNameHandler.bind(this, 'Maximilian')}>Switch Name</button> */}
-        <p className={p_classes.join(' ')}>Persons list status</p>
-        <button className={btnClass.join(' ')} statusp={this.state.show_person}
-          onClick={this.togglePersonsHandler}>Switch Name</button>
+        <Cockpit showPersons={this.state.show_person}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}
+        />
 
         {personsf}
 
