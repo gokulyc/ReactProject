@@ -1,23 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.module.css';
 import Person from './Person/Person';
-import Userinput from './Assigment1/UserInput';
-import Useroutput from './Assigment1/UserOutput';
-import styled from 'styled-components';
-// import Radium, { StyleRoot } from 'radium';
-
-const StyledButton = styled.button`
-      background-color: ${props => props.statusp ? 'red' : 'green'};
-color: white;
-font: inherit;
-border: 1px solid blue;
-padding: 8px;
-cursor: pointer;
-      &: hover {
-  background - color: ${props => props.statusp ? 'salmon' : 'lightgreen'};
-  color: black;
-  }
-`;
 
 class App extends Component {
   state = {
@@ -72,19 +55,9 @@ class App extends Component {
   }
 
   render() {
-    // const stylebtn = {
-    //   backgroundColor: 'green',
-    //   color: 'white',
-    //   font: 'inherit',
-    //   border: '1px solid blue',
-    //   padding: '8px',
-    //   cursor: 'pointer',
-    //   ':hover': {
-    //     backgroundColor: 'lightgreen',
-    //     color: 'black',
-    //   }
-    // };
+
     let personsf = null;
+    let btnClass = [classes.Button];
     if (this.state.show_person) {
       personsf = (
         <div>
@@ -97,11 +70,7 @@ class App extends Component {
           })}
         </div>
       );
-      // stylebtn.backgroundColor = 'red';
-      // stylebtn[':hover'] = {
-      //   backgroundColor: 'salmon',
-      //   color: 'black',
-      // };
+      btnClass.push(classes.Red);
 
     }
     const p_classes = []; // status css classes
@@ -114,21 +83,15 @@ class App extends Component {
 
     return (
       //<StyleRoot></StyleRoot>
-      <div className="App" >
+      <div className={classes.App} >
         <h1>Hi , Welcome to React app</h1>
         {/* bind argument with function 1st way || efficient way <button onClick={this.swicthNameHandler.bind(this, 'Maximilian')}>Switch Name</button> */}
         <p className={p_classes.join(' ')}>Persons list status</p>
-        <StyledButton statusp={this.state.show_person}
-          onClick={this.togglePersonsHandler}>Switch Name</StyledButton>
+        <button className={btnClass.join(' ')} statusp={this.state.show_person}
+          onClick={this.togglePersonsHandler}>Switch Name</button>
 
         {personsf}
-        <Userinput name="Gokul"
-          changed={this.usernameChangedHandler}
-          currentname={this.state.Users[0]}
-        /><br></br>
-        <Useroutput username={this.state.Users[0]} /><br></br>
-        <Useroutput username={this.state.Users[1]} /><br></br>
-        <Useroutput username={this.state.Users[2]} />
+
       </div >
 
     );
